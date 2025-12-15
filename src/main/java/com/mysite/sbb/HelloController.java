@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody; // 메서드 반환
 public class HelloController {
 
     @GetMapping("/hello")                         // 브라우저에서 /hello 로 GET 요청이 오면 이 메서드(메서드 이름은 상관X)를 실행
-//    @ResponseBody                                  // HTTP 를 통해 return 값 "Hello World!" 를  출력  (다른 url 로 가고 싶으면 이 문구 제거)
+    @ResponseBody                                  // HTTP 를 통해 return 값 "Hello World!" 를  출력  (다른 url 로 가고 싶으면 이 문구 제거)
     public String hello() {
 //        return "Hello World!";                    // 브라우저에 Hello World! 를 직접 출력
         return "hello";                    // 브라우저에 Hello World! 를 직접 출력
