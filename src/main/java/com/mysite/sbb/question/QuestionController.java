@@ -12,13 +12,15 @@ import java.util.List;
 @Controller
 public class QuestionController {
 
-    private final QuestionRepository questionRepository;
+    private final QuestionService questionService;
+//    private final QuestionRepository questionRepository;
 
     @GetMapping("/question/list")
 //    @ResponseBody
     public String list(Model model) {
 
-        List<Question> questionList = questionRepository.findAll();
+//        List<Question> questionList = questionRepository.findAll();
+        List<Question> questionList = this.questionService.getlist();
         model.addAttribute("questionList",questionList);
         return "question_list";
     }
