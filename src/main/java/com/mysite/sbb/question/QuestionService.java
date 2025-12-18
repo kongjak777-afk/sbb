@@ -1,6 +1,8 @@
 package com.mysite.sbb.question;
 
-import com.mysite.sbb.DataNotFoundExeption;
+import com.mysite.sbb.DataNotFoundException;
+
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +28,8 @@ public class QuestionService {
         if (question.isPresent()) {                             // 조회 결과가 존재한다면 (DB에 질문이 있다면)
             return question.get();                              // Optional 안에 들어있는 Question 객체를 꺼내서 반환
         } else {                                                // 조회 결과가 없다면 (해당 id의 질문이 없으면)
-             return null;                                     // 아무 질문도 없다는 의미로 null 반환 (권장되지는 않음)
-//            throw new DataNotFoundExeption("question not found");
+//             return null;                                     // 아무 질문도 없다는 의미로 null 반환 (권장되지는 않음)
+            throw new DataNotFoundException("question not found");  // throw 문법
         }
     }
 
