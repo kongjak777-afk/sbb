@@ -26,7 +26,7 @@ public class AnswerController {
 
         Question question = this.questionService.getQuestions(id);
 
-        answerService.create(question, content);            //   답변을 저장하기 위해 서비스를 호출
+        answerService.createAnswer(question, content);            //   답변을 저장하기 위해 서비스를 호출
         return String.format("redirect:/question/detail/%s",id);
 
     }
