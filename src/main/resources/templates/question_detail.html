@@ -1,13 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>질문 상세보기</title>
-    <!--    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-grid.min.css}">-->
-    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
-</head>
-<body>
-<div class="container my-3">
+<!doctype html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>질문 상세보기</title>-->
+<!--    &lt;!&ndash;    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-grid.min.css}">&ndash;&gt;-->
+<!--    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">-->
+<!--</head>-->
+<!--<body>-->
+<div layout:fragment="content"  class="container my-3">
     <!-- 질문 -->
     <h2 class="border-bottom py-2" th:text="${question.subject}"></h2>
     <div class="card my-3">
@@ -42,5 +46,5 @@
     </form>
 </div>
 
-</body>
+<!--</body>-->
 </html>

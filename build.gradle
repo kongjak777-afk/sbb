@@ -33,6 +33,8 @@ dependencies {
 //    implementation 'nz.net.ultrag.thymeleaf:thymeleaf-layout-dialect:3.3.0'
 //    implementation 'nz.net.ultrag.thymeleaf:thymeleaf-layout-dialect'
     testImplementation 'org.springframework.boot:spring-boot-starter-thymeleaf-test'
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+
     // Lombok 의존성 추가
     implementation 'org.projectlombok:lombok'
     // 어노테이션 프로세서 설정 (필요한 경우)
