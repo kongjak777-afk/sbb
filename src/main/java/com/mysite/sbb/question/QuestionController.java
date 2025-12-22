@@ -1,12 +1,12 @@
 package com.mysite.sbb.question;
 
+import com.mysite.sbb.answer.AnswerForm;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,13 +35,33 @@ public class QuestionController {
 
     @GetMapping("/detail/{id}")   // id 가 뭐가 들어올지 모를때 자바에선 중괄호로 함
 
-    public String detail (Model model,
-                          @PathVariable Integer id) {               // 아이디에 대한 것을 화면으로부터 받도록 한다.
+    public String detail(Model model,
+                         @PathVariable Integer id,
+                         AnswerForm answerForm) {               // 아이디에 대한 것을 화면으로부터 받도록 한다.
 
-        Question question= this.questionService.getQuestions(id);
+        Question question = this.questionService.getQuestions(id);
         model.addAttribute("question", question);
         return "question_detail";
     }
+
+
+    @GetMapping("/create")
+    public String qusetionCreate(QuestionForm questionForm) {   //양방향으로 화면컨트롤 (바인딩)
+
+        return "question_form";
+    }
+
+
+    @PostMapping("/create")
+    public String qusetionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {        //
+            return "question_form";
+        }
+        this.questionService.create(questionForm.getSubject(),questionForm.getContent());
+        return "redirect:/question/list";
+
+    }
+
 
 }
 
