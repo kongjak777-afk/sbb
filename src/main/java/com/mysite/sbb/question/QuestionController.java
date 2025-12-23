@@ -3,6 +3,7 @@ package com.mysite.sbb.question;
 import com.mysite.sbb.answer.AnswerForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,17 +20,24 @@ public class QuestionController {
 
 //    private final QuestionRepository questionRepository; // DB 직접 접근 레포지토리(현재 미사용)
 
-    @GetMapping("/list")                  // /question/list GET 요청 매핑
-//    @ResponseBody                                // JSON/String 그대로 응답(템플릿 미사용 시)
-    public String list(Model model) {               // 질문 목록 요청 처리 메서드 스프링MVC에서 뷰로 데이터를 전달하기 위한 객체
-        //  매개변수로 그냥 써도 자동주입 됨.
+//    @GetMapping("/list")                  // /question/list GET 요청 매핑
+////    @ResponseBody                                // JSON/String 그대로 응답(템플릿 미사용 시)
+//    public String list(Model model) {               // 질문 목록 요청 처리 메서드 스프링MVC에서 뷰로 데이터를 전달하기 위한 객체
+//        //  매개변수로 그냥 써도 자동주입 됨.
+//
 
-//        List<Question> questionList = questionRepository.findAll(); // 레포지토리 직접 조회
-        List<Question> questionList = this.questionService.getlist(); // 서비스 통해 질문 목록 조회
-
-        model.addAttribute("questionList", questionList); // 뷰로 전달할 데이터 저장
-
-        return "question_list";                     // question_list.html 템플릿 렌더링
+    /// /        List<Question> questionList = questionRepository.findAll(); // 레포지토리 직접 조회
+//        List<Question> questionList = this.questionService.getList(); // 서비스 통해 질문 목록 조회
+//
+//        model.addAttribute("questionList", questionList); // 뷰로 전달할 데이터 저장
+//
+//        return "question_list";                     // question_list.html 템플릿 렌더링
+//    }
+    @GetMapping("/list")
+    public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
+        Page<Question> paging = this.questionService.getList(page);
+        model.addAttribute("paging", paging);
+        return "question_list";
     }
 
 
@@ -57,7 +65,7 @@ public class QuestionController {
         if (bindingResult.hasErrors()) {        //
             return "question_form";
         }
-        this.questionService.create(questionForm.getSubject(),questionForm.getContent());
+        this.questionService.create(questionForm.getSubject(), questionForm.getContent());
         return "redirect:/question/list";
 
     }
