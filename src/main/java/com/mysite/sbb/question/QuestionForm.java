@@ -1,6 +1,6 @@
 package com.mysite.sbb.question;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;   // constraints : 제약조건
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
