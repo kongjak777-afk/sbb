@@ -53,6 +53,12 @@ dependencies {
 
     //vaildaion 애플리케이션으로 들어오는 데이터가 예상된 규칙과 형식을 만족하는지 사전에 검사하는 기능
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    //시큐리티 설치
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+
+
 }
 
 tasks.named('test') {
