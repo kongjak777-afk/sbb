@@ -1,6 +1,7 @@
 package com.mysite.sbb.question;
 
 import com.mysite.sbb.answer.Answer;
+import com.mysite.sbb.user.SiteUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,8 +26,13 @@ public class Question {
 
     private LocalDateTime createDate;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)    // 지워지면 댓글까지 지우도록
     private List<Answer> answerList;       //복수개의 답변을 저장하려면 list 구조 >  제너릭 으로 Answer 타입 지정.
+
+    @ManyToOne
+    private SiteUser author;  // 한명의 글쓴이가 여러 질문 등록 가능
+
+
 
 
 }

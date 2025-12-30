@@ -1,15 +1,18 @@
 package com.mysite.sbb.question;
 
 import com.mysite.sbb.answer.AnswerForm;
+import com.mysite.sbb.user.SiteUser;
+import com.mysite.sbb.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.security.Principal;
 
 @RequestMapping("/question")                    // URL 프리픽스 앞에 /question 접두사를 지정
 @RequiredArgsConstructor                          // final 필드를 생성자로 자동 주입(Lombok)
@@ -17,6 +20,7 @@ import java.util.List;
 public class QuestionController {
 
     private final QuestionService questionService; // 질문 관련 비즈니스 로직 처리 서비스
+    private final UserService userService;
 
 //    private final QuestionRepository questionRepository; // DB 직접 접근 레포지토리(현재 미사용)
 
@@ -52,20 +56,23 @@ public class QuestionController {
         return "question_detail";
     }
 
-
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String qusetionCreate(QuestionForm questionForm) {   //양방향으로 화면컨트롤 (바인딩)
 
         return "question_form";
     }
 
-
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
-    public String qusetionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult) {
+    public String qusetionCreate(@Valid QuestionForm questionForm,
+                                 BindingResult bindingResult,
+                                 Principal principal) {
         if (bindingResult.hasErrors()) {        //
             return "question_form";
         }
-        this.questionService.create(questionForm.getSubject(), questionForm.getContent());
+        SiteUser siteUser = userService.getUser(principal.getName());
+        this.questionService.create(questionForm.getSubject(), questionForm.getContent(), siteUser);
         return "redirect:/question/list";
 
     }

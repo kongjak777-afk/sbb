@@ -12,7 +12,7 @@ public class UserCreateForm {
 
     @NotBlank(message = "아이디는 필수 항목입니다. 최소 3글자 최대 25")
     @Size(min = 3, max = 25)
-    public String username;
+    public String userName;
 
     @NotBlank(message = "Password는 필수 항목입니다.")
     public String password1;
@@ -25,6 +25,6 @@ public class UserCreateForm {
     public String email;
 
 
-
-
+//    public String getUserName() {
+//    }
 }
