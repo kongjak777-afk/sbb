@@ -29,15 +29,17 @@ public class SecurityConfig {
                 .formLogin((formLogin) -> formLogin
                         .loginPage("/user/login")       //  로그인 페이지
                         .defaultSuccessUrl("/"))   // 로그인이 성공하면 루트 패스로 보냄
-                .logout((logout) -> logout
+//                .logout((logout) -> logout
 //                        .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
+                .logout((logout) -> logout
                         .logoutUrl("/user/logout")
                         .logoutSuccessUrl("/")
-                        .invalidateHttpSession(true)) ;
+                        .invalidateHttpSession(true));
 
 
         return http.build();   // 보안 설정을 마칠 때 사용하는 최종 빌드 메서드  http 는 아무이름이나 위에서 선언한것
     }
+
     // 스프링 컨테이너가 관리 하도록 빈을 올림
     @Bean
     PasswordEncoder passwordEncoder() {
