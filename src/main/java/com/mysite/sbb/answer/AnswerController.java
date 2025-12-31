@@ -6,13 +6,16 @@ import com.mysite.sbb.user.SiteUser;
 import com.mysite.sbb.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 
@@ -47,10 +50,51 @@ public class AnswerController {
         this.answerService.createAnswer(question, answerForm.getContent(), siteUser);            //   답변을 저장하기 위해 서비스를 호출
         return String.format("redirect:/question/detail/%s",id);
 
+    }
 
 
+    @PreAuthorize("isAuthenticated()")              //  현재 사용자가 **로그인(인증)된 상태인지** 확인하는 표현식
+    @GetMapping("/modify/{id}")                   // <a 앵커 태그로 들어온 메서드 처리
+    public String answerModify(AnswerForm answerForm,
+                                  @PathVariable Integer id,
+                                  Principal principal) {
+        Answer answer = this.answerService.getAnswer(id);
+
+        if(!answer.getAuthor().getUserName().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정권한이 없습니다.");
+        }
+        answerForm.setContent(answer.getContent());
+        return "answer_form";
+    }
+
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/modify/{id}")                //post 방식으로 들어온 메서드 처리
+    public String answerModify(@Valid AnswerForm answerForm,      // 메서드 오버로딩 위와 같은 메서드명이지만 파라미터 갯수가 다름
+                                 BindingResult bindingResult,
+                                 Principal principal,
+                                 @PathVariable Integer id) {
+        if (bindingResult.hasErrors()) {        //
+            return "answer_form";
+        }
+        Answer answer = this.answerService.getAnswer(id);
+
+        if(!answer.getAuthor().getUserName().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정권한이 없습니다.");
+        }
+
+        this.answerService.modify(answer, answerForm.getContent());
+
+        Integer questionId = answer.getQuestion().getId();
+        return String.format("redirect:/question/detail/%d", questionId);
+
+
+//        return String.format("redirect:/question/detail/%d", id);
 
     }
+
+
+
 
 
 
