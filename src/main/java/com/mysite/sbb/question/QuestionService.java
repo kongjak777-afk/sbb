@@ -39,7 +39,7 @@ public class QuestionService {
     }
 
 
-    public Question getQuestions(Integer id) {                // id(질문 번호)를 받아 질문 1개를 조회하는 메소드
+    public Question getQuestion(Integer id) {                // id(질문 번호)를 받아 질문 1개를 조회하는 메소드
         Optional<Question> question =                          // Question이 있을 수도 있고 없을 수도 있는 객체(Optional)
                 questionRepository.findById(id);               // DB에서 해당 id의 질문을 조회
 
@@ -61,6 +61,26 @@ public class QuestionService {
         this.questionRepository.save(q);
 
     }
+
+
+    public void modify(Question question, String subject, String content) {
+
+        question.setSubject(subject);
+        question.setContent(content);
+        question.setCreateDate(LocalDateTime.now());
+        this.questionRepository.save(question);
+
+    }
+
+
+
+    public void delete(Question question) {
+
+        this.questionRepository.delete(question);
+    }
+
+
+
 
 
 }

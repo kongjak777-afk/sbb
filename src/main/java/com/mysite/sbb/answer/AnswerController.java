@@ -36,7 +36,7 @@ public class AnswerController {
                                Principal principal) {   // 시큐리티 객체 로그인 사용자의 정보 가지고 있음
 
 
-        Question question = this.questionService.getQuestions(id);
+        Question question = this.questionService.getQuestion(id);
         SiteUser siteUser = userService.getUser(principal.getName());
 
         if (bindingResult.hasErrors()) {

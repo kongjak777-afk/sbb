@@ -36,6 +36,15 @@ public class Answer {
 
 
 
+    
+    private LocalDateTime modifyDate ;      //수정 일시 추가하기
+
+
+
+
+
+
+
 
 
 }

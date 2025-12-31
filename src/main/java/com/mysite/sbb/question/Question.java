@@ -33,6 +33,9 @@ public class Question {
     private SiteUser author;  // 한명의 글쓴이가 여러 질문 등록 가능
 
 
+    private LocalDateTime modifyDate ;      //수정 일시 추가하기
+
+
 
 
 }
