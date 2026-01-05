@@ -111,6 +111,18 @@ public class AnswerController {
     }
 
 
+    @PreAuthorize("isAuthenticated()")              //  현재 사용자가 **로그인(인증)된 상태인지** 확인하는 표현식
+    @GetMapping("/vote/{id}")                   // <a 앵커 태그로 들어온 메서드 처리
+    public String  answerVote(@PathVariable Integer id,  // URL 경로에 포함된 값(/delete/{id})을 받아오는 질문 번호
+                                Principal principal) {  // 현재 로그인한 사용자의 인증 정보 객체 userName
+        Answer answer = this.answerService.getAnswer(id);
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        answerService.vote(siteUser, answer);
+
+        return String.format("redirect:/question/detail/%d",answer.getQuestion().getId());
+    }
+
+
 
 
 
