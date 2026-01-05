@@ -1,7 +1,13 @@
 <!doctype html>
+<!--<html lang="ko"-->
+<!--      xmlns:th="http://www.thymeleaf.org"-->
+<!--      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"-->
+<!--      layout:decorate="~{layout}">-->
+
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout}">
 
 <!--<head>-->
@@ -18,15 +24,16 @@
         <div class="card-body">
             <div class="card-text" style="white-space: pre-line;" th:text="${question.content}"></div>
             <div class="d-flex justify-content-end">
-<!--                <div class="badge bg-light text-dark p-2 text-start">-->
-<!--                    <div th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></div>-->
-<!--                </div>-->
-                <div class="mb-2">
-                    <span th:if="${question.author != null}" th:text="${question.author.userName}"></span>
+                <div th:if="${question.modifyDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
+                    <div class="mb-2">최종 수정일시</div>
+                    <div th:text="${#temporals.format(question.modifyDate, 'yyyy-MM-dd HH:mm')}"></div>
                 </div>
-<!--                <div th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></div>-->
-                <div th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"
-                     class="ms-2"></div>
+                <div class="badge bg-light text-dark p-2 text-start">
+                    <div class="mb-2">
+                        <span th:if="${question.author != null}" th:text="${question.author.userName}"></span>
+                    </div>
+                    <div th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+                </div>
             </div>
 
             <div class="my-3">
@@ -56,16 +63,16 @@
         <div class="card-body">
             <div class="card-text" style="white-space: pre-line;" th:text="${answer.content}"></div>
             <div class="d-flex justify-content-end">
-<!--                <div class="badge bg-light text-dark p-2 text-start">-->
-<!--                    <div th:text="${#temporals.format(answer.createDate, 'yyyy-MM-dd HH:mm')}"></div>-->
-<!--                </div>-->
-                <div class="mb-2">
-                    <span th:if="${answer.author != null}" th:text="${answer.author.userName}"></span>
+                <div th:if="${answer.modifyDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
+                    <div class="mb-2">최종 수정일시</div>
+                    <div th:text="${#temporals.format(answer.modifyDate, 'yyyy-MM-dd HH:mm')}"></div>
                 </div>
-<!--                <div th:text="${#temporals.format(answer.createDate, 'yyyy-MM-dd HH:mm')}"></div>-->
-                <div th:text="${#temporals.format(answer.createDate, 'yyyy-MM-dd HH:mm')}"
-                     class="ms-2"></div>
-
+                <div class="badge bg-light text-dark p-2 text-start">
+                    <div class="mb-2">
+                        <span th:if="${answer.author != null}" th:text="${answer.author.userName}"></span>
+                    </div>
+                    <div th:text="${#temporals.format(answer.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+                </div>
             </div>
             <!-- 답변 수정,삭제버튼  -->
             <div class="my-3">
@@ -75,11 +82,11 @@
                    th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.userName}"
                    th:text="수정"></a>
 
-<!--                <a href="javascript:void(0);" th:data-uri="@{|/answer/delete/${answer.id}|}"-->
-<!--                   class="delete btn btn-sm btn-outline-secondary"-->
-<!--                   sec:authorize="isAuthenticated()"-->
-<!--                   th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.userName}"-->
-<!--                   th:text="삭제"></a>-->
+                <a href="javascript:void(0);" th:data-uri="@{|/answer/delete/${answer.id}|}"
+                   class="delete btn btn-sm btn-outline-secondary"
+                   sec:authorize="isAuthenticated()"
+                   th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.userName}"
+                   th:text="삭제"></a>
 
             </div>
             <!-- 답변 수정,삭제버튼  종료 -->
@@ -113,5 +120,5 @@
         });
     });
 </script>
-</body>
+<!--</body>-->
 </html>
