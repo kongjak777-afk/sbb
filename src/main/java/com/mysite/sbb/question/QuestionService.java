@@ -80,6 +80,11 @@ public class QuestionService {
     }
 
 
+    public void vote(SiteUser siteUser, Question question) {
+        question.getVoter().add(siteUser);
+        this.questionRepository.save(question);
+    }
+
 
 
 

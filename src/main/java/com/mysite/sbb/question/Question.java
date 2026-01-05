@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -34,6 +35,11 @@ public class Question {
 
 
     private LocalDateTime modifyDate ;      //수정 일시 추가하기
+    
+    
+    @ManyToMany
+    Set<SiteUser> voter;     //중목 혀용 안되는 컬렉션 프레임워크인 Set 을 활용하여 1유저가 1번만 등록 가능
+    
 
 
 

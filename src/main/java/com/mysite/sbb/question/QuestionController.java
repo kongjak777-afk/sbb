@@ -124,11 +124,23 @@ public class QuestionController {
                                   Principal principal) {  // 현재 로그인한 사용자의 인증 정보 객체 userName
         Question question = this.questionService.getQuestion(id);
 
-        if(!question.getAuthor().getUserName().equals(principal.getName())) {
+        if(!question.getAuthor().getUserName().equals(principal.getName())) {       // 로그인한 사람과 글쓴이 정보 일치하는지 확인
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"삭제권한이 없습니다.");
         }
         this.questionService.delete(question);
         return "redirect:/";
+    }
+
+
+    @PreAuthorize("isAuthenticated()")              //  현재 사용자가 **로그인(인증)된 상태인지** 확인하는 표현식
+    @GetMapping("/vote/{id}")                   // <a 앵커 태그로 들어온 메서드 처리
+    public String  questionVote(@PathVariable Integer id,  // URL 경로에 포함된 값(/delete/{id})을 받아오는 질문 번호
+                                  Principal principal) {  // 현재 로그인한 사용자의 인증 정보 객체 userName
+        Question question = this.questionService.getQuestion(id);
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        questionService.vote(siteUser, question);
+
+        return String.format("redirect:/question/detail/%d", id);
     }
 
 
