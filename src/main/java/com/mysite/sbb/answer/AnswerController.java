@@ -47,8 +47,7 @@ public class AnswerController {
             return "question_detail";
         }
 
-        Answer answer = this.answerService.create(question,
-                answerForm.getContent(), siteUser);
+        Answer answer = this.answerService.create(question,answerForm.getContent(), siteUser);
         return String.format("redirect:/question/detail/%s#answer_%s",answer.getQuestion().getId(), answer.getId());
     }
 
@@ -94,8 +93,7 @@ public class AnswerController {
 //
 ////        return String.format("redirect:/question/detail/%d", id);  // 이대로 쓰면 답변 아이디로 넘어가서 질문 아이디가 아니게 됨 따라서 엉뚱한 질문으로 랜딩
         this.answerService.modify(answer, answerForm.getContent());
-        return String.format("redirect:/question/detail/%s#answer_%s",
-                answer.getQuestion().getId(), answer.getId());
+        return String.format("redirect:/question/detail/%s#answer_%s",answer.getQuestion().getId(), answer.getId());
 
 
 
