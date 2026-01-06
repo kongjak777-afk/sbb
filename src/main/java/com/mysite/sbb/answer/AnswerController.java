@@ -47,9 +47,9 @@ public class AnswerController {
             return "question_detail";
         }
 
-        this.answerService.createAnswer(question, answerForm.getContent(), siteUser);            //   답변을 저장하기 위해 서비스를 호출
-        return String.format("redirect:/question/detail/%s",id);
-
+        Answer answer = this.answerService.create(question,
+                answerForm.getContent(), siteUser);
+        return String.format("redirect:/question/detail/%s#answer_%s",answer.getQuestion().getId(), answer.getId());
     }
 
 
@@ -83,13 +83,21 @@ public class AnswerController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정권한이 없습니다.");
         }
 
+//        this.answerService.modify(answer, answerForm.getContent());
+//
+////        Integer questionId = answer.getQuestion().getId();
+////        return String.format("redirect:/question/detail/%d", questionId);
+//
+////        return String.format("redirect:/question/detail/%d",answer.getQuestion().getId());
+//        return String.format("redirect:/question/detail/%d#answer_$s",answer.getQuestion().getId(), answer.getId());
+//
+//
+////        return String.format("redirect:/question/detail/%d", id);  // 이대로 쓰면 답변 아이디로 넘어가서 질문 아이디가 아니게 됨 따라서 엉뚱한 질문으로 랜딩
         this.answerService.modify(answer, answerForm.getContent());
+        return String.format("redirect:/question/detail/%s#answer_%s",
+                answer.getQuestion().getId(), answer.getId());
 
-        Integer questionId = answer.getQuestion().getId();
-        return String.format("redirect:/question/detail/%d", questionId);
 
-
-//        return String.format("redirect:/question/detail/%d", id);  // 이대로 쓰면 답변 아이디로 넘어가서 질문 아이디가 아니게 됨 따라서 엉뚱한 질문으로 랜딩
 
 
     }
@@ -106,8 +114,9 @@ public class AnswerController {
         }
         this.answerService.delete(answer);
 //        Integer questionId = answer.getQuestion().getId();
-        return String.format("redirect:/question/detail/%d", answer.getQuestion().getId());
 //        return String.format("redirect:/question/detail/%d", questionId);
+        return String.format("redirect:/question/detail/%d", answer.getQuestion().getId());
+//        return String.format("redirect:/question/detail/%d#answer_$s",answer.getQuestion().getId(), answer.getId());
     }
 
 
@@ -117,9 +126,11 @@ public class AnswerController {
                                 Principal principal) {  // 현재 로그인한 사용자의 인증 정보 객체 userName
         Answer answer = this.answerService.getAnswer(id);
         SiteUser siteUser = this.userService.getUser(principal.getName());
-        answerService.vote(siteUser, answer);
+        this.answerService.vote(siteUser, answer);
 
-        return String.format("redirect:/question/detail/%d",answer.getQuestion().getId());
+//        return String.format("redirect:/question/detail/%d",answer.getQuestion().getId());
+//        return String.format("redirect:/question/detail/%d#answer_$s",answer.getQuestion().getId(), answer.getId());
+        return String.format("redirect:/question/detail/%s#answer_%s",answer.getQuestion().getId(), answer.getId());
     }
 
 
